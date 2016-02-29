@@ -27,6 +27,7 @@ request.onreadystatechange = function() {
 request.open('GET', 'http://api.com/api/method', true);
 request.send();
 ```
+That's a lot of work just to make one HTTP request. Luckily, Angular gives us a better way - enter `$http`.  
 
 ## What is $http?
 
