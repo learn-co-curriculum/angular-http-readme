@@ -11,9 +11,26 @@ One common requirement of apps is the ability to make HTTP requests. Luckily, An
 - Fetch data from an API
 - Update data from an API
 
+## Making HTTP requests
+
+In JavaScript, if we need to make HTTP requests, we'd use `XMLHTTPRequest`. This is quite an outdated aspect of JavaScript, and it didn't provide the most simplistic API:
+
+```js
+var request = new XMLHttpRequest();
+
+request.onreadystatechange = function() {
+	if (request.readyState === 4 && request.status === 200) {
+	  console.log('data loaded!');
+	}
+};
+
+request.open('GET', 'http://api.com/api/method', true);
+request.send();
+```
+
 ## What is $http?
 
-$http is a core Angular service that provides a simplistic API to allow us to communicate with HTTP endpoints with ease.
+$http is a core Angular service that provides a simplistic API to allow us to communicate with HTTP endpoints with ease. It is a wrapper for `XMLHTTPRequest` to allow us to use a simplistic, easy API.
 
 There are a few ways to do requests - let's take a look at them
 
@@ -38,6 +55,8 @@ $http({
 
 This will return a promise with the data - we call the `.then` function that the function call returns - passing through a callback function that will get called when the request has finished.
 
+A "promise" is just a specification on implementing certain methods. The $http function returns an object of methods, one of them being `then`. We use `then` to execute a callback whenever the "promise" is resolved (the request has finished loading).
+
 ```js
 $http({
 	method: 'GET',
@@ -59,18 +78,19 @@ They act similar to the example above, but as we already have the method in the 
 ```js
 $http.get('/someURL');
 
-$http.post('someOtherURL', { username: 'Bill' });
+$http.post('/someOtherURL', { username: 'Bill' });
 ```
 
 ### Using these in our services
 
 Now, any usage of `$http` should be done in a custom service that we create. This makes our controllers nice a thin, and allows us to call our API from anywhere in the application. If we didn't abstract our API calls out into a service, we might end up having two calls to the same endpoint somewhere in our application. If that endpoint then changed, we'd have to look around the application for any usage of the endpoint, instead of just changing it once in one file.
 
+This fits into our `MVVM` architecture - thin controllers and all the logic being done by helpers. It means we have code that can be shared between the whole application.
 
 Let's have a look at how we'd put our `$http` usage into our services.
 
 ```js
-function UserService() {
+function UserService($http) {
 	this.getLoggedInUser = function () {
 		return $http.get('/rest/user');
 	}
@@ -106,7 +126,7 @@ We call our `UserService.getLoggedInUser()` function and then update our control
 Now, we might have a form to update the user's email address. We'd then use `$http.post()` in our service:
 
 ```js
-function UserService() {
+function UserService($http) {
 	this.getLoggedInUser = function () {
 		return $http.get('/rest/user');
 	};
