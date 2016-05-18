@@ -84,7 +84,7 @@ $http.post('/someOtherURL', { username: 'Bill' });
 
 ### Using these in our services
 
-Now, any usage of `$http` should be done in a custom service that we create. This makes our controllers nice a thin, and allows us to call our API from anywhere in the application. If we didn't abstract our API calls out into a service, we might end up having two calls to the same endpoint somewhere in our application. If that endpoint then changed, we'd have to look around the application for any usage of the endpoint, instead of just changing it once in one file.
+Now, any usage of `$http` should be done in a custom service that we create. This makes our controllers nice and thin, and allows us to call our API from anywhere in the application. If we didn't abstract our API calls out into a service, we might end up having two calls to the same endpoint somewhere in our application. If that endpoint then changed, we'd have to look around the application for any usage of the endpoint, instead of just changing it once in one file.
 
 This fits into our `MVVM` architecture - thin controllers and all the logic being done by helpers. It means we have code that can be shared between the whole application.
 
@@ -164,3 +164,5 @@ angular
 ```
 
 Simple!
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/angular-http-readme'>HTTP Readme</a> on Learn.co and start learning to code for free.</p>
